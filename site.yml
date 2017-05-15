@@ -1,0 +1,14 @@
+---
+ - hosts: localhost
+   gather_facts: no
+   
+   vars:
+        aws_access_key: 'AKIAIIUCRHMJ7LSCCZAQ'
+        aws_secret_key: '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'
+        region: 'us-east-1'
+        image: 'ami-e13739f6'
+        instance_type: 't2.micro'
+
+   roles:
+       - KeyPair_SecurityGroup
+       - ec2

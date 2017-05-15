@@ -1,0 +1,36 @@
+---
+
+  - name: Create an EC2 Key
+    ec2_key:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        name: "Ansible_Key"
+        region: "{{ region }}"
+    register: ec2_key
+  - name: save private key
+    copy: content="{{ ec2_key.key.private_key }}" dest="/home/ubuntu/AnsibleKey.pem" mode=0600
+    when: ec2_key.changed
+  - name: Create security group
+    ec2_group:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        name: Jenkins_Security_Group
+        description: Security group for SSH_HTTP_HTTPS
+        region: "{{ region }}"
+        rules:
+            - proto: tcp
+              from_port: 22
+              to_port: 22
+              cidr_ip: 0.0.0.0/0
+            - proto: tcp
+              from_port: 80
+              to_port: 80
+              cidr_ip: 0.0.0.0/0
+            - proto: tcp
+              from_port: 443
+              to_port: 443
+              cidr_ip: 0.0.0.0/0
+        rules_egress:
+            - proto: all
+              cidr_ip: 0.0.0.0/0
+    register: My_Security_Group

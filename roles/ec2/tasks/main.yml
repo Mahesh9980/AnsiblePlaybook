@@ -1,0 +1,14 @@
+---
+ - name: "Launch ec2 instance"
+   ec2:
+     aws_access_key: "{{ aws_access_key }}"
+     aws_secret_key: "{{ aws_secret_key }}"
+     region: "{{ region }}"
+     key_name: Ansible_Key
+     instance_type: "{{ instance_type }}"
+     image: "{{ image }}"
+     wait: yes
+     count: 1
+     group: Jenkins_Security_Group
+     vpc_subnet_id: subnet-87f140bb
+     assign_public_ip: yes

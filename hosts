@@ -1,0 +1,7 @@
+[local]
+localhost ansible_connection=local
+
+[MyMachines]
+52.86.207.27
+
+
